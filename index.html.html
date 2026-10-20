@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sábado AI Pro - Universal Studio Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-base: #06060a;
+            --bg-panel: #0d0d16;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(8, 8, 14, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6366f1, #ec4899);
+            border-radius: 8px;
+        }
+
+        .neon-glow {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.45), 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+        
+        .neon-glow-pink {
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.45), 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(13, 13, 24, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glow-border {
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glow-border:hover, .glow-border:focus-within {
+            border-color: rgba(236, 72, 153, 0.8);
+            box-shadow: 0 0 18px rgba(236, 72, 153, 0.25);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen select-none">
+
+    <!-- Header Principal -->
+    <header class="glass-panel px-4 py-2.5 flex items-center justify-between z-20 border-b border-[#2d2d48] shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-black text-lg text-white shadow-lg neon-glow">
+                S
+            </div>
+            <div>
+                <h1 class="text-sm font-bold bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent flex items-center gap-1.5">
+                    Sábado AI Pro <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 font-semibold">EDICIÓN JAMES 🥳</span>
+                </h1>
+                <p class="text-[10px] text-slate-400">Asistente Dialectal & Studio Creativo de Fin de Semana</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar">
+            <!-- Selector de Idioma -->
+            <select id="language-selector" onchange="changeLanguage(this.value)" class="bg-[#141422] border border-[#27273a] text-slate-300 text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="es" selected>🇪🇸 Español (Dialectal LATAM)</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="pt">🇵🇹 Português</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="ko">🇰🇷 한국어</option>
+            </select>
+
+            <!-- Selector de Pestañas -->
+            <div class="bg-[#141422] p-1 rounded-xl border border-[#27273a] flex gap-1 shrink-0">
+                <button onclick="switchMode('chat')" id="tab-chat" class="px-3 py-1 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white shadow-md flex items-center gap-1">
+                    <i class="fa-solid fa-comments"></i> Chat
+                </button>
+                <button onclick="switchMode('studio')" id="tab-studio" class="px-3 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Studio AI
+                </button>
+                <button onclick="switchMode('tools')" id="tab-tools" class="px-3 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-cubes"></i> Tools
+                </button>
+                <button onclick="switchMode('gallery')" id="tab-gallery" class="px-3 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-images"></i> Galería
+                </button>
+                <button onclick="switchMode('dashboard')" id="tab-dashboard" class="px-3 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-earth-americas"></i> Dialectos
+                </button>
+            </div>
+
+            <button onclick="exportChatHistory()" class="p-2 rounded-xl bg-[#141420] border border-[#27273a] text-slate-400 hover:text-indigo-400 hover:border-indigo-500 transition-all shrink-0" title="Guardar Conversación">
+                <i class="fa-solid fa-download"></i>
+            </button>
+            <button onclick="clearChat()" class="p-2 rounded-xl bg-[#141420] border border-[#27273a] text-slate-400 hover:text-pink-400 hover:border-pink-500 transition-all shrink-0" title="Limpiar Conversación">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 relative overflow-hidden flex flex-col">
+
+        <!-- Vista Chat -->
+        <div id="view-chat" class="flex-1 flex flex-col h-full overflow-hidden z-10">
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 custom-scrollbar bg-gradient-to-b from-[#0e0e18]/80 via-[#08080f]/90 to-[#040407]">
+                <div class="flex gap-3 max-w-[95%] md:max-w-[80%]">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-sm shadow-lg shrink-0 neon-glow text-white">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-[#141424] border border-[#26263e] p-4 rounded-2xl rounded-tl-sm text-sm md:text-base leading-relaxed text-slate-200 shadow-2xl relative">
+                        <div class="flex items-center justify-between gap-4 mb-2 pb-2 border-b border-[#27273a]">
+                            <span id="welcome-title" class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                                <i class="fa-solid fa-sparkles"></i> Sábado AI Pro - James 🌟
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <select id="tts-speed" class="bg-[#1c1c30] text-[10px] text-slate-300 rounded px-1.5 py-0.5 border border-[#2f2f48]">
+                                    <option value="0.8">0.8x Lento</option>
+                                    <option value="1.0" selected>1.0x Normal</option>
+                                    <option value="1.2">1.2x Rápido</option>
+                                    <option value="1.5">1.5x Turbo</option>
+                                </select>
+                                <button onclick="speakResponse(this)" data-text="¡Hola James! Soy Sábado AI Pro Ultimate. Comprendo jergas de toda Latinoamérica y España, genero código, traduzco dialectos y creo arte HD nomás." class="text-slate-300 hover:text-white px-2 py-0.5 rounded bg-[#222238] hover:bg-indigo-600/40 transition-all text-xs flex items-center gap-1">
+                                    <i class="fa-solid fa-volume-high"></i> Escuchar
+                                </button>
+                            </div>
+                        </div>
+                        <span id="welcome-msg">¡Hola <b>James!</b> 🌎 Soy <b>Sábado Universal AI Pro Ultimate</b> 🌟. Entiendo todos los modismos y jergas de Latinoamérica y España, resuelvo dudas académicas, programo y <b>puedo crear imágenes nomás</b>. ¡Explora las pestañas de Tools y Dialectos para probar todo lo nuevo!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opciones Rápidas de Configuración -->
+            <div class="bg-[#0a0a10] px-4 py-2 border-t border-[#232336] flex flex-col gap-2 text-xs">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-0.5 max-w-full">
+                        <span class="text-indigo-400 font-bold whitespace-nowrap flex items-center gap-1">
+                            <i class="fa-solid fa-palette"></i> Estilo Rápido:
+                        </span>
+                        <button onclick="setImageStyle('')" id="style-Default" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-medium border border-indigo-400 transition-all">Automático</button>
+                        <button onclick="setImageStyle('Realistic')" id="style-Realistic" class="px-2.5 py-1 rounded-lg bg-[#161626] border border-[#27273a] text-slate-300 hover:border-indigo-500 transition-all">Realista</button>
+                        <button onclick="setImageStyle('Anime')" id="style-Anime" class="px-2.5 py-1 rounded-lg bg-[#161626] border border-[#27273a] text-slate-300 hover:border-indigo-500 transition-all">Anime</button>
+                        <button onclick="setImageStyle('Cyberpunk')" id="style-Cyberpunk" class="px-2.5 py-1 rounded-lg bg-[#161626] border border-[#27273a] text-slate-300 hover:border-indigo-500 transition-all">Cyberpunk</button>
+                        <button onclick="setImageStyle('3D Render')" id="style-3D Render" class="px-2.5 py-1 rounded-lg bg-[#161626] border border-[#27273a] text-slate-300 hover:border-indigo-500 transition-all">Render 3D</button>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                            <input type="checkbox" id="search-grounding-toggle" checked class="accent-indigo-500 w-3.5 h-3.5 rounded cursor-pointer">
+                            <span class="text-[11px] font-semibold text-emerald-400"><i class="fa-solid fa-globe"></i> Búsqueda Web</span>
+                        </label>
+                        <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                            <input type="checkbox" id="watermark-toggle" checked class="accent-indigo-500 w-3.5 h-3.5 rounded cursor-pointer">
+                            <span class="text-[11px] font-semibold text-pink-400"><i class="fa-solid fa-watermark"></i> Marca Sábado AI</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entrada de Texto -->
+            <div class="bg-[#0e0e16] p-3 border-t border-[#232336] flex items-center gap-2">
+                <button onclick="switchMode('studio')" class="p-3 rounded-2xl bg-[#181828] border border-[#27273a] text-slate-300 hover:text-indigo-400 hover:border-indigo-500 transition-all shrink-0" title="Abrir Studio de Creación Avanzada">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+                <div class="flex-1 bg-[#161626] border border-[#27273a] rounded-2xl flex items-center px-4 py-1 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+                    <input type="text" id="user-input" placeholder="¿Qué hacemos este sábado? Háblame en tu jerga o pide una imagen HD..." class="w-full bg-transparent border-none py-2 text-sm text-white placeholder-slate-500 focus:outline-none" autocomplete="off">
+                </div>
+                <button onclick="sendMessage()" class="w-11 h-11 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white flex items-center justify-center shadow-lg hover:opacity-90 active:scale-95 transition-all shrink-0 neon-glow">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vista Tools -->
+        <div id="view-tools" class="hidden flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-[#07070c]">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="flex items-center justify-between border-b border-[#232336] pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-cubes text-purple-400"></i> Herramientas Pro & Generadores Rápidos
+                        </h2>
+                        <p class="text-xs text-slate-400">Acceso a plantillas y utilidades preparadas para maximizar tu creatividad.</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-semibold">Edición James</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-indigo-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-indigo-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-code"></i> Asistente de Código
+                            </div>
+                            <p class="text-xs text-slate-400">Escribe o depura código en Python, JavaScript, HTML, C++, Lua para Roblox y más.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Escribe un script optimizado en JavaScript/Python para responder solicitudes web en tiempo real.')" class="mt-4 px-3 py-2 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-purple-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-purple-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-file-contract"></i> Resumidor Inteligente
+                            </div>
+                            <p class="text-xs text-slate-400">Resume textos largos, artículos o documentos destacando los puntos más importantes.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Haz un resumen conciso en puntos clave con emoticonos sobre el siguiente tema: ')" class="mt-4 px-3 py-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-pink-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-pink-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-music"></i> Rimas y Canciones
+                            </div>
+                            <p class="text-xs text-slate-400">Genera versos de rap, rimas o letras de canciones con estilos o acentos específicos.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Crea una letra de rap pegajosa estilo urbano con modismos latinoamericanos sobre salir un sábado con los panas.')" class="mt-4 px-3 py-2 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 border border-pink-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-emerald-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-emerald-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap"></i> Explicador de Tareas
+                            </div>
+                            <p class="text-xs text-slate-400">Resuelve problemas matemáticos o conceptos complejos paso a paso con explicaciones sencillas.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Explícame paso a paso cómo resolver este ejercicio de matemática/física de forma muy clara: ')" class="mt-4 px-3 py-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-amber-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-amber-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-bullhorn"></i> Copys para Redes
+                            </div>
+                            <p class="text-xs text-slate-400">Escribe publicaciones creativas con hashtags y llamado a la acción para Instagram, TikTok o Facebook.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Escribe 3 propuestas de copys atrayentes para redes sociales con emojis y hashtags sobre: ')" class="mt-4 px-3 py-2 bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-[#12121f] border border-[#27273a] p-4 rounded-2xl hover:border-cyan-500 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="text-cyan-400 text-xl font-bold mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-gamepad"></i> Diseñador de Juegos
+                            </div>
+                            <p class="text-xs text-slate-400">Genera ideas de mecánicas, historias o diálogos para videojuegos indie o Roblox.</p>
+                        </div>
+                        <button onclick="useQuickPrompt('Dame 3 ideas de mecánicas de juego innovadoras para un videojuego multijugador divertido.')" class="mt-4 px-3 py-2 bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/30 rounded-xl text-xs font-semibold flex items-center justify-between">
+                            <span>Usar Plantilla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Studio AI -->
+        <div id="view-studio" class="hidden flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-[#07070c]">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="flex items-center justify-between border-b border-[#232336] pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> Studio AI Pro Creative Hub
+                        </h2>
+                        <p class="text-xs text-slate-400">Crea imágenes detalladas con parámetros avanzados, relación de aspecto y modificadores artísticos.</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-semibold">Gemini Flash Image Engine</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-[#12121f] border border-[#27273a] p-5 rounded-2xl space-y-4">
+                        <h3 class="text-sm font-bold text-indigo-300 border-b border-[#27273a] pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders"></i> Parámetros de Generación
+                        </h3>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 font-semibold mb-1.5">Relación de Aspecto (Aspect Ratio)</label>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <button onclick="setAspectRatio('1:1')" id="ar-1:1" class="p-2 rounded-xl bg-indigo-600 border border-indigo-400 text-white font-bold flex items-center justify-center gap-1">
+                                    <i class="fa-regular fa-square"></i> 1:1 Cuadrado
+                                </button>
+                                <button onclick="setAspectRatio('16:9')" id="ar-16:9" class="p-2 rounded-xl bg-[#181828] border border-[#27273a] text-slate-300 flex items-center justify-center gap-1 hover:border-indigo-500">
+                                    <i class="fa-solid fa-tv"></i> 16:9 Horizontal
+                                </button>
+                                <button onclick="setAspectRatio('9:16')" id="ar-9:16" class="p-2 rounded-xl bg-[#181828] border border-[#27273a] text-slate-300 flex items-center justify-center gap-1 hover:border-indigo-500">
+                                    <i class="fa-solid fa-mobile-screen"></i> 9:16 Historia
+                                </button>
+                                <button onclick="setAspectRatio('4:3')" id="ar-4:3" class="p-2 rounded-xl bg-[#181828] border border-[#27273a] text-slate-300 flex items-center justify-center gap-1 hover:border-indigo-500">
+                                    <i class="fa-solid fa-desktop"></i> 4:3 Pantalla
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 font-semibold mb-1.5">Estilo Artístico Predeterminado</label>
+                            <select id="studio-style-select" onchange="setImageStyle(this.value)" class="w-full bg-[#181828] border border-[#27273a] text-xs text-slate-200 p-2.5 rounded-xl focus:outline-none focus:border-indigo-500">
+                                <option value="">Automático / Sin Filtro</option>
+                                <option value="Realistic">Fotorrealista Ultra HD</option>
+                                <option value="Anime">Anime Japones / Manga</option>
+                                <option value="Cyberpunk">Cyberpunk Neon City</option>
+                                <option value="3D Render">Render 3D Pixar Style</option>
+                                <option value="Cinematic">Fotografía Cinematográfica</option>
+                                <option value="Surrealism">Arte Surrealista Onírico</option>
+                                <option value="Synthwave">Synthwave 80s Retro</option>
+                                <option value="Charcoal">Boceto a Carbón / Lápiz</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 font-semibold mb-1.5">Prompt Negativo (Lo que NO quieres ver)</label>
+                            <input type="text" id="studio-negative-prompt" placeholder="ej: borroso, mal renderizado, deforme..." class="w-full bg-[#181828] border border-[#27273a] text-xs text-slate-200 p-2.5 rounded-xl focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 bg-[#12121f] border border-[#27273a] p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="text-sm font-bold text-pink-300 border-b border-[#27273a] pb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-pen-ruler"></i> Descripción Detallada (Prompt)
+                            </h3>
+
+                            <textarea id="studio-prompt-input" rows="4" placeholder="Describe exactamente lo que quieres crear. Ejemplo: 'Un guerrero cyberpunk en un mercado nocturno de Tokio, lluvia cayendo, luces de neón púrpuras y doradas...'" class="w-full bg-[#181828] border border-[#27273a] text-sm text-white p-3 rounded-xl focus:outline-none focus:border-indigo-500 resize-none custom-scrollbar"></textarea>
+
+                            <div>
+                                <span class="text-xs text-slate-400 font-semibold block mb-1.5">Añadir Potenciadores Rápidos:</span>
+                                <div class="flex flex-wrap gap-1.5 text-xs">
+                                    <button onclick="addStudioTag('ultra realistic 8k resolution, Unreal Engine 5 render')" class="px-2.5 py-1 rounded-lg bg-[#1a1a2e] border border-[#2a2a44] text-indigo-300 hover:bg-indigo-600/30">+ 8K Unreal</button>
+                                    <button onclick="addStudioTag('dramatic volumetric lighting, ray tracing reflections')" class="px-2.5 py-1 rounded-lg bg-[#1a1a2e] border border-[#2a2a44] text-pink-300 hover:bg-pink-600/30">+ Luz Dramática</button>
+                                    <button onclick="addStudioTag('vivid vibrant color palette, masterpiece composition')" class="px-2.5 py-1 rounded-lg bg-[#1a1a2e] border border-[#2a2a44] text-purple-300 hover:bg-purple-600/30">+ Colores Vívidos</button>
+                                    <button onclick="addStudioTag('bokeh depth of field, wide angle shot')" class="px-2.5 py-1 rounded-lg bg-[#1a1a2e] border border-[#2a2a44] text-emerald-300 hover:bg-emerald-600/30">+ Gran Ángulo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex items-center justify-end gap-3 border-t border-[#27273a]">
+                            <button onclick="clearStudioForm()" class="px-4 py-2.5 rounded-xl border border-[#27273a] text-slate-400 hover:text-white text-xs font-semibold">
+                                Limpiar
+                            </button>
+                            <button onclick="generateFromStudio()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-xs font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all flex items-center gap-2 neon-glow">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Renderizar Imagen Pro
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Galería -->
+        <div id="view-gallery" class="hidden flex-1 overflow-y-auto p-6 custom-scrollbar bg-[#07070c]">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div class="flex items-center justify-between border-b border-[#27273a] pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-images text-pink-400"></i> Galería de Creaciones Pro
+                        </h2>
+                        <p class="text-xs text-slate-400">Historial de imágenes renderizadas con marca de agua y especificaciones.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="filterGallery('all')" class="text-xs bg-[#181826] border border-[#27273a] text-slate-300 px-3 py-1.5 rounded-xl hover:border-indigo-500">Todas</button>
+                        <button onclick="clearGallery()" class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-xl hover:bg-red-500/20 transition-all">Vaciar Galería</button>
+                    </div>
+                </div>
+
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div id="empty-gallery-msg" class="col-span-full text-center py-12 text-slate-500 text-sm">
+                        Aún no has generado imágenes. ¡Pide una en el chat o en Studio para verla aquí!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Dashboard & Explorador Dialectal -->
+        <div id="view-dashboard" class="hidden flex-1 overflow-y-auto p-6 custom-scrollbar bg-[#07070c]">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div class="flex items-center justify-between border-b border-[#27273a] pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-earth-americas text-indigo-400"></i> Inteligencia Dialectal Global & Hispanohablante
+                        </h2>
+                        <p class="text-xs text-slate-400">Selección completa de expresiones, jergas y frases regionales preparadas para probar con el asistente.</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold">Filtro NSFW & Moderación Activa</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-[#12121d] border border-[#27273a] p-4 rounded-2xl shadow-lg flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl font-bold">💬</div>
+                        <div>
+                            <span class="text-xs font-medium text-slate-400">Interacciones Totales</span>
+                            <h3 id="stat-interactions" class="text-2xl font-bold text-indigo-400">1</h3>
+                        </div>
+                    </div>
+                    <div class="bg-[#12121d] border border-[#27273a] p-4 rounded-2xl shadow-lg flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold">👥</div>
+                        <div>
+                            <span class="text-xs font-medium text-slate-400">Límite Concurrente Activo</span>
+                            <h3 id="stat-cluster" class="text-2xl font-bold text-purple-400">5.0M Nodos</h3>
+                        </div>
+                    </div>
+                    <div class="bg-[#12121d] border border-[#27273a] p-4 rounded-2xl shadow-lg flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl font-bold">🖼️</div>
+                        <div>
+                            <span class="text-xs font-medium text-slate-400">Imágenes Renderizadas</span>
+                            <h3 id="stat-images" class="text-2xl font-bold text-pink-400">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#12121d] border border-[#27273a] p-5 rounded-2xl space-y-4">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-[#27273a] pb-3">
+                        <i class="fa-solid fa-language text-indigo-400"></i> Explorador Regional de Jergas (Haz clic en cualquiera para probarla)
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                        <button onclick="useQuickPrompt('🇻🇪 ¿Cuáles son los mejores planes en Venezuela para salir a rumbear un sábado con los panas y comerse unas empanadas o arepas en la madrugada?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇻🇪 Venezuela</div>
+                                <p class="text-[11px] text-slate-400">"Pana", "Rumba", "Activo", "Echar vaina", "Naguebona"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇨🇴 Háblame parce, ¿cuál es el mejor parche para armar este sábado en Colombia y pasarla bacano?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇨🇴 Colombia</div>
+                                <p class="text-[11px] text-slate-400">"Parce", "Armar el parche", "Bacano", "Chimba", "Pola"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇲🇽 ¡Qué onda cañón! ¿Qué planes están chidos para irse de fiesta o por unas chelas este sábado en México?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇲🇽 México</div>
+                                <p class="text-[11px] text-slate-400">"Qué onda", "Chido", "Chelas", "Guey", "Padrísimo"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇦🇷 Che boludo, ¿sale previa hoy sábado o qué jodita recomendás para ir con los pibes?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇦🇷 Argentina</div>
+                                <p class="text-[11px] text-slate-400">"Che", "Boludo", "Previa", "Pibes", "Joda", "Faiola"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇨🇱 ¿Qué onda po wn? ¿Qué carrete bacán hay para salir este sábado con los cabros?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇨🇱 Chile</div>
+                                <p class="text-[11px] text-slate-400">"Wena po", "Carrete", "Bacán", "Cabros", "Cachai"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇵🇪 ¡Habla causa! ¿Qué tal la pichanga o la juerga para este sábado con la gente?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇵🇪 Perú</div>
+                                <p class="text-[11px] text-slate-400">"Causa", "Juerga", "Pata", "Pichanga", "Chevere"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇪🇸 ¡Mazo bien tronco! ¿Qué planes hay para salir de marchuki este sábado por Madrid o Barcelona?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇪🇸 España</div>
+                                <p class="text-[11px] text-slate-400">"Tronco", "De marchuki", "Mazo", "Flipante", "Guay"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇪🇨 ¡Habla pana! ¿Qué farra hay organizada para este sábado con los panas en Guayaquil o Quito?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇪🇨 Ecuador</div>
+                                <p class="text-[11px] text-slate-400">"Farra", "Pana", "Bacán", "Acolitar", "Chévere"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+
+                        <button onclick="useQuickPrompt('🇩🇴 ¡Dime a ver manín! ¿Qué coro encendío hay para este sábado con el bonche de la gente?')" class="p-3 bg-[#181826] hover:bg-indigo-600/20 border border-[#27273a] hover:border-indigo-500 rounded-xl text-left transition-all text-slate-300 hover:text-white flex flex-col justify-between">
+                            <div>
+                                <div class="font-bold text-indigo-400 mb-1">🇩🇴 Rep. Dominicana</div>
+                                <p class="text-[11px] text-slate-400">"Dime a ver", "Manín", "Coro", "Bonche", "Klk"</p>
+                            </div>
+                            <span class="text-[10px] text-indigo-300 mt-2 font-semibold">Probar expresión →</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        
+        const userSessionId = 'usr_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now();
+        
+        let currentLang = 'es';
+        let currentMode = 'chat';
+        let interactionCount = 1;
+        let imageCount = 0;
+        let selectedStyle = '';
+        let selectedAspectRatio = '1:1';
+        let generatedGalleryItems = [];
+        
+        const userChatHistories = {};
+        userChatHistories[userSessionId] = [];
+
+        const langMap = {
+            'es': 'es-ES', 'en': 'en-US', 'fr': 'fr-FR', 'de': 'de-DE', 
+            'pt': 'pt-PT', 'it': 'it-IT', 'zh': 'zh-CN', 'ja': 'ja-JP', 
+            'ko': 'ko-KR'
+        };
+
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+
+        function setAspectRatio(ar) {
+            selectedAspectRatio = ar;
+            ['1:1', '16:9', '9:16', '4:3'].forEach(ratio => {
+                const btn = document.getElementById(`ar-${ratio}`);
+                if (btn) {
+                    if (ratio === ar) {
+                        btn.className = "p-2 rounded-xl bg-indigo-600 border border-indigo-400 text-white font-bold flex items-center justify-center gap-1";
+                    } else {
+                        btn.className = "p-2 rounded-xl bg-[#181828] border border-[#27273a] text-slate-300 flex items-center justify-center gap-1 hover:border-indigo-500";
+                    }
+                }
+            });
+        }
+
+        function addStudioTag(tag) {
+            const area = document.getElementById('studio-prompt-input');
+            if (!area.value.includes(tag)) {
+                area.value = area.value ? `${area.value}, ${tag}` : tag;
+            }
+            area.focus();
+        }
+
+        function clearStudioForm() {
+            document.getElementById('studio-prompt-input').value = '';
+            document.getElementById('studio-negative-prompt').value = '';
+        }
+
+        async function generateFromStudio() {
+            const prompt = document.getElementById('studio-prompt-input').value.trim();
+            if (!prompt) {
+                alert("Por favor escribe una descripción para generar la imagen.");
+                return;
+            }
+
+            switchMode('chat');
+            userInput.value = `/img ${prompt}`;
+            sendMessage();
+        }
+
+        function setImageStyle(styleName) {
+            selectedStyle = styleName;
+            const styles = ['', 'Realistic', 'Anime', 'Cyberpunk', '3D Render'];
+            styles.forEach(s => {
+                const btnId = s === '' ? 'style-Default' : `style-${s}`;
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    if (s === styleName) {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-medium border border-indigo-400 transition-all";
+                    } else {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-[#161626] border border-[#27273a] text-slate-300 hover:border-indigo-500 transition-all";
+                    }
+                }
+            });
+        }
+
+        function useQuickPrompt(promptText) {
+            switchMode('chat');
+            userInput.value = promptText;
+            sendMessage();
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const selector = document.getElementById('language-selector');
+            const langName = selector.options[selector.selectedIndex].text;
+            document.getElementById('welcome-title').innerHTML = `<i class="fa-solid fa-sparkles"></i> Sábado AI Pro (${langName.split(' ')[1] || langName}) 🌟`;
+            document.getElementById('welcome-msg').innerHTML = `¡Hola <b>James!</b> Configurado para <b>${langName}</b>. Entiendo cualquier jerga regional, puedo responder preguntas y <b>crear imágenes nomás</b>.`;
+        }
+
+        function exportChatHistory() {
+            let historyText = "=== SÁBADO AI PRO ULTIMATE HISTORY ===\n\n";
+            const messages = chatContainer.querySelectorAll('.p-4');
+            messages.forEach(msg => {
+                const text = msg.innerText.replace("Escuchar", "").trim();
+                historyText += text + "\n-----------------------------------\n";
+            });
+
+            const blob = new Blob([historyText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sabado_ai_pro_history_${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const views = ['chat', 'studio', 'tools', 'gallery', 'dashboard'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const tab = document.getElementById(`tab-${v}`);
+                if (el) el.classList.add('hidden');
+                if (tab) tab.className = "px-3 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white flex items-center gap-1";
+            });
+
+            const activeView = document.getElementById(`view-${mode}`);
+            const activeTab = document.getElementById(`tab-${mode}`);
+
+            if (activeView) activeView.classList.remove('hidden');
+            if (activeTab) activeTab.className = "px-3 py-1 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white shadow-md flex items-center gap-1";
+
+            if (mode === 'gallery') renderGallery();
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (text === "") return;
+
+            appendChatMessage(text, 'user', 'U');
+            userInput.value = "";
+            showTypingIndicator();
+            incrementStats('interaction');
+
+            await processAiResponse(text, 'chat');
+        }
+
+        function incrementStats(type) {
+            interactionCount++;
+            if (type === 'image') imageCount++;
+            document.getElementById('stat-interactions').textContent = interactionCount;
+            document.getElementById('stat-images').textContent = imageCount;
+        }
+
+        function appendChatMessage(htmlContent, sender, avatarText, rawSpeechText = "") {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-3 max-w-[95%] md:max-w-[80%] ${sender === 'user' ? 'ml-auto flex-row-reverse' : ''}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = `w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm shadow-md shrink-0 ${sender === 'user' ? 'bg-gradient-to-tr from-indigo-700 to-purple-700 text-white' : 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white neon-glow'}`;
+            avatar.innerHTML = sender === 'user' ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-robot"></i>';
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `p-4 rounded-2xl text-sm md:text-base leading-relaxed shadow-xl ${sender === 'user' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-tr-sm' : 'bg-[#141424] border border-[#26263e] text-slate-200 rounded-tl-sm'}`;
+
+            if (sender === 'bot') {
+                const plainTextForSpeech = rawSpeechText || htmlContent.replace(/<[^>]*>?/gm, '');
+                msgDiv.innerHTML = `
+                    <div class="flex items-center justify-between gap-4 mb-2 pb-2 border-b border-[#27273a]">
+                        <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                            <i class="fa-solid fa-bolt"></i> Sábado AI Pro
+                        </span>
+                        <button onclick="speakResponse(this)" data-text="${escapeHtml(plainTextForSpeech)}" class="text-slate-300 hover:text-white px-2 py-0.5 rounded bg-[#222238] hover:bg-indigo-600/40 transition-all text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Escuchar
+                        </button>
+                    </div>
+                    <div>${htmlContent}</div>
+                `;
+            } else {
+                msgDiv.innerHTML = htmlContent;
+            }
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(msgDiv);
+            chatContainer.appendChild(wrapper);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function speakResponse(btn) {
+            const textToSpeak = btn.getAttribute('data-text');
+            speakResponseText(textToSpeak);
+        }
+
+        function speakResponseText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = langMap[currentLang] || 'es-ES';
+                const speed = parseFloat(document.getElementById('tts-speed')?.value || '1.0');
+                utterance.rate = speed;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function showTypingIndicator() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex gap-3 max-w-[75%]';
+            wrapper.id = 'typing-indicator';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm text-white shadow-md shrink-0 bg-gradient-to-tr from-indigo-500 to-purple-500';
+            avatar.innerHTML = '<i class="fa-solid fa-robot"></i>';
+
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'p-4 bg-[#141424] border border-[#26263e] rounded-2xl rounded-tl-sm flex gap-1.5 items-center';
+            typingDiv.innerHTML = '<div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"></div><div class="w-2 h-2 rounded-full bg-purple-400 animate-bounce [animation-delay:0.2s]"></div><div class="w-2 h-2 rounded-full bg-pink-400 animate-bounce [animation-delay:0.4s]"></div><span class="text-xs text-slate-400 ml-2">Sábado AI está procesando...</span>';
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(typingDiv);
+            chatContainer.appendChild(wrapper);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const ind = document.getElementById('typing-indicator');
+            if (ind) ind.remove();
+        }
+
+        function clearChat() {
+            userChatHistories[userSessionId] = [];
+            chatContainer.innerHTML = `
+                <div class="flex gap-3 max-w-[95%] md:max-w-[80%]">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-sm shadow-md shrink-0 text-white">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-[#141424] border border-[#26263e] p-4 rounded-2xl rounded-tl-sm text-sm md:text-base leading-relaxed text-slate-200 shadow-xl">
+                        Conversación reiniciada. Soy Sábado AI Pro Ultimate. ¡Hola James! Entiendo cualquier palabra o jerga regional, respondo preguntas y puedo crear imágenes nomás.
+                    </div>
+                </div>
+            `;
+        }
+
+        /* FILTRO DE CONTENIDO RESTRICTIVO Y SEGURIDAD */
+        function checkHarmfulRequest(prompt) {
+            const lower = prompt.toLowerCase();
+            const badKeywords = [
+                'pene', 'penis', 'vagina', 'pussy', 'dick', 'cock', 'sexo', 'porno', 'porn', 
+                'desnuda', 'desnudo', 'xxx', 'erotico', 'erotica', 'hentai', 'nude', 'nudes', 
+                'singar', 'follando', 'chingando', 'mamarla', 'paja', 'hackear', 'malware', 'virus',
+                'culiar', 'morder la auyama', 'echar un polvo'
+            ];
+            return badKeywords.some(keyword => lower.includes(keyword));
+        }
+
+        async function applyWatermarkToImage(imageSrc) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    ctx.drawImage(img, 0, 0);
+
+                    const addWatermark = document.getElementById('watermark-toggle').checked;
+
+                    if (addWatermark) {
+                        const padding = Math.max(16, Math.floor(canvas.width * 0.03));
+                        const fontSize = Math.max(16, Math.floor(canvas.width * 0.028));
+                        const subFontSize = Math.max(12, Math.floor(canvas.width * 0.02));
+
+                        const boxWidth = Math.floor(canvas.width * 0.48);
+                        const boxHeight = fontSize * 3.4;
+                        const boxX = canvas.width - boxWidth - padding;
+                        const boxY = canvas.height - boxHeight - padding;
+
+                        ctx.save();
+                        ctx.fillStyle = 'rgba(8, 8, 14, 0.88)';
+                        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                        ctx.shadowBlur = 16;
+                        
+                        const radius = 14;
+                        ctx.beginPath();
+                        ctx.moveTo(boxX + radius, boxY);
+                        ctx.lineTo(boxX + boxWidth - radius, boxY);
+                        ctx.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + radius);
+                        ctx.lineTo(boxX + boxWidth, boxY + boxHeight - radius);
+                        ctx.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - radius, boxY + boxHeight);
+                        ctx.lineTo(boxX + radius, boxY + boxHeight);
+                        ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - radius);
+                        ctx.lineTo(boxX, boxY + radius);
+                        ctx.quadraticCurveTo(boxX, boxY, boxX + radius, boxY);
+                        ctx.closePath();
+                        ctx.fill();
+
+                        ctx.strokeStyle = 'rgba(168, 85, 247, 0.9)';
+                        ctx.lineWidth = 2.5;
+                        ctx.stroke();
+
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = `bold ${fontSize}px sans-serif`;
+                        ctx.fillText('⚡ Sábado AI Pro Ultimate', boxX + 16, boxY + fontSize + 6);
+
+                        ctx.fillStyle = '#c084fc';
+                        ctx.font = `${subFontSize}px sans-serif`;
+                        ctx.fillText('Created by James', boxX + 16, boxY + fontSize + subFontSize + 12);
+                        ctx.restore();
+                    }
+
+                    resolve(canvas.toDataURL('image/png'));
+                };
+                img.onerror = () => {
+                    resolve(imageSrc);
+                };
+                img.src = imageSrc;
+            });
+        }
+
+        async function generateRealGeminiImage(imagePrompt) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
+            
+            let fullPrompt = imagePrompt + ", safe for work, highly detailed, family-friendly, fully clothed, tasteful portrait, rich vibrant colors";
+            if (selectedStyle) {
+                fullPrompt += `, in ${selectedStyle} style`;
+            }
+
+            const neg = document.getElementById('studio-negative-prompt')?.value;
+            if (neg) {
+                fullPrompt += `, without ${neg}`;
+            }
+
+            let rawImageUrl = '';
+
+            const payload = {
+                contents: [{
+                    role: 'user',
+                    parts: [{ text: fullPrompt }]
+                }],
+                generationConfig: {
+                    responseModalities: ['IMAGE'],
+                    imageConfig: { aspectRatio: selectedAspectRatio }
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+                
+                if (part && part.inlineData && part.inlineData.data) {
+                    rawImageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                }
+            } catch(e) {
+                console.error("Error al generar imagen:", e);
+            }
+
+            if (!rawImageUrl) return null;
+
+            const finalWatermarkedImage = await applyWatermarkToImage(rawImageUrl);
+            
+            generatedGalleryItems.push({
+                type: 'image',
+                prompt: imagePrompt,
+                style: selectedStyle || 'Standard',
+                aspectRatio: selectedAspectRatio,
+                url: finalWatermarkedImage,
+                date: new Date().toLocaleTimeString()
+            });
+
+            return finalWatermarkedImage;
+        }
+
+        async function fetchGeminiResponse(userQuery) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            
+            const systemPrompt = `Tu nombre es "Sábado Universal AI Pro" o "Sábado AI".
+REGLAS DE COMPRENSIÓN Y CULTURA DE LENGUAJE:
+1. ENTIENDES Y RECONOCES JERGAS Y EXPRESIONES DE CUALQUIER PAÍS DEL MUNDO (ej. Venezuela, Colombia, México, Argentina, Chile, Perú, Ecuador, República Dominicana, España, etc.). Si el usuario te habla usando dialectos o palabras regionales, tú entiendes perfectamente el contexto cultural y le respondes de forma fluida y empática en su propio dialecto o en español neutro claro.
+2. Te diriges al usuario simplemente como "James" cuando sea oportuno. NUNCA uses "aló" ni ninguna otra palabra pegada a su nombre. Tu creador es "James" (un programador). Solo menciona detalles directos sobre James si te lo preguntan directamente.
+3. NUNCA des información personal, privada o confidencial de James.
+4. Si el usuario te pide qué puedes hacer, dile "puedo crear imágenes nomás, responder preguntas, escribir código y traducir dialectos".
+5. REGLA DE SEGURIDAD ESTRICTA: Si el usuario te pide contenido explícito, sexual, vulgaridades, imágenes o textos eróticos, o hackear/vulnerar sistemas, debes responder EXACTAMENTE: "No puedo hacer eso, soy una ia de lenguaje y no puedo ayudarte en eso".
+6. Responde en '${currentLang}'. Responde de forma amable, natural y precisa. Formatea bloques de código elegantemente si el usuario pide programar.`;
+
+            if (!userChatHistories[userSessionId]) {
+                userChatHistories[userSessionId] = [];
+            }
+            
+            userChatHistories[userSessionId].push({ role: 'user', parts: [{ text: userQuery }] });
+
+            const enableSearch = document.getElementById('search-grounding-toggle').checked;
+
+            const payload = {
+                contents: userChatHistories[userSessionId],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            if (enableSearch) {
+                payload.tools = [{ "google_search": {} }];
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const aiText = candidate.content.parts[0].text;
+                    userChatHistories[userSessionId].push(candidate.content);
+                    return aiText
+                        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                        .replace(/```([\s\S]*?)```/g, '<pre class="bg-[#0b0b12] p-3 rounded-xl border border-[#27273a] font-mono text-xs overflow-x-auto text-indigo-300 my-2"><code>$1</code></pre>')
+                        .replace(/\n/g, '<br>');
+                }
+            } catch(e) {
+                console.error("Error multi-usuario:", e);
+            }
+            userChatHistories[userSessionId].pop();
+            return null;
+        }
+
+        async function processAiResponse(input, targetMode) {
+            const clean = input.toLowerCase();
+
+            if (checkHarmfulRequest(clean)) {
+                removeTypingIndicator();
+                const safetyMsg = "No puedo hacer eso, soy una ia de lenguaje y no puedo ayudarte en eso";
+                appendChatMessage(safetyMsg, 'bot', 'AI', safetyMsg);
+                return;
+            }
+
+            const isImageRequest = clean.includes('imagen') || clean.includes('image') || clean.includes('dibuja') || clean.includes('creame una imagen') || clean.includes('crea una imagen') || clean.includes('foto') || clean.startsWith('/img');
+
+            let replyText = "";
+            let generatedCardHtml = "";
+
+            if (isImageRequest) {
+                incrementStats('image');
+                let prompt = input
+                    .replace(/creame una imagen de/gi, '')
+                    .replace(/crea una imagen de/gi, '')
+                    .replace(/generate an image of/gi, '')
+                    .replace(/dibuja una imagen de/gi, '')
+                    .replace(/dibuja/gi, '')
+                    .replace(/imagen de/gi, '')
+                    .replace(/\/img/gi, '')
+                    .trim();
+
+                if (!prompt) prompt = input;
+
+                const imageUrl = await generateRealGeminiImage(prompt);
+
+                if (imageUrl) {
+                    replyText = `¡James! Aquí tienes la imagen que me pediste sobre: <b>"${prompt}"</b> (con marca de agua HD de Sábado AI Pro).`;
+                    generatedCardHtml = `
+                        <div class="mt-3 rounded-xl overflow-hidden border border-[#27273a] bg-[#0c0c14] shadow-2xl relative">
+                            <img src="${imageUrl}" alt="${prompt}" class="w-full max-h-96 object-contain bg-black/40 rounded-t-xl">
+                            <div class="p-3 bg-[#12121d] flex items-center justify-between text-xs text-slate-400 border-t border-[#27273a]">
+                                <span><b>Prompt:</b> ${prompt} (${selectedAspectRatio})</span>
+                                <a href="${imageUrl}" download="sabado_ai_pro_image.png" target="_blank" class="text-pink-400 font-semibold hover:underline flex items-center gap-1 bg-pink-500/10 px-2.5 py-1 rounded-lg border border-pink-500/20">
+                                    <i class="fa-solid fa-download"></i> Descargar Imagen
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    replyText = "No pude generar la imagen en este momento. Inténtalo de nuevo.";
+                }
+            } else {
+                const apiResult = await fetchGeminiResponse(input);
+                if (apiResult) {
+                    replyText = apiResult;
+                } else {
+                    replyText = "Disculpa, tuve un problema al procesar tu solicitud. ¿Podrías preguntarme de nuevo?";
+                }
+            }
+
+            removeTypingIndicator();
+            const fullHtml = replyText + generatedCardHtml;
+            const plainSpeech = replyText.replace(/<[^>]*>?/gm, '');
+
+            appendChatMessage(fullHtml, 'bot', 'AI', plainSpeech);
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            if (generatedGalleryItems.length === 0) {
+                grid.innerHTML = `
+                    <div id="empty-gallery-msg" class="col-span-full text-center py-12 text-slate-500 text-sm">
+                        Aún no has generado imágenes. ¡Pide una en el chat o en Studio para verla aquí!
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = generatedGalleryItems.map((item, i) => `
+                <div class="bg-[#12121d] border border-[#27273a] rounded-2xl overflow-hidden shadow-lg flex flex-col">
+                    <div class="relative overflow-hidden group">
+                        <img src="${item.url}" alt="${item.prompt}" class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300">
+                        <div class="absolute top-2 right-2 bg-black/70 backdrop-blur px-2 py-0.5 rounded text-[10px] text-indigo-300 border-indigo-500/40 font-bold border">
+                            ⚡ ${item.aspectRatio || '1:1'}
+                        </div>
+                    </div>
+                    <div class="p-3 flex-1 flex flex-col justify-between">
+                        <p class="text-xs text-slate-300 font-medium line-clamp-2">"${item.prompt}"</p>
+                        <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500">
+                            <span>🕒 ${item.date}</span>
+                            <a href="${item.url}" download="sabado_ai_gallery_${i}.png" target="_blank" class="text-pink-400 font-semibold hover:underline flex items-center gap-1">
+                                <i class="fa-solid fa-download"></i> Descargar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearGallery() {
+            generatedGalleryItems = [];
+            renderGallery();
+        }
+    </script>
+</body>
+</html>
